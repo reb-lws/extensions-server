@@ -12,7 +12,7 @@ gem 'haml'
 gem 'bcrypt'
 
 # SN Extensions
-gem 'sn-revisions', :path => "~/Desktop/revisions", :require => "revisions"
+gem 'sn-revisions', require: "revisions"
 gem 'sf-dropbox-ext', require: "dropbox_ext"
 
 gem 'rack-cors', :require => 'rack/cors'
