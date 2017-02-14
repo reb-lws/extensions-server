@@ -22,4 +22,5 @@
 
 .ssh
 .env
-cap.yaml
+/config/cap.yml
+.DS_Store
