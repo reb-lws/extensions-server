@@ -10,4 +10,4 @@ Rails.application.config.assets.paths << Rails.root.join('vendor', 'assets', 'fo
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-Rails.application.config.assets.precompile += %w( marked.js )
+Rails.application.config.assets.precompile += %w( marked.js simplemde.min.js simplemde.min.css )

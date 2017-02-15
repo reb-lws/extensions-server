@@ -1,9 +1,7 @@
 <html>
 <head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-  <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/swift.min.js"></script>
+  <%= stylesheet_link_tag 'simplemde.min' %>
+  <%= javascript_include_tag 'simplemde.min' %>
   <style>
   body, html {
     font-family: sans-serif;
@@ -27,9 +25,6 @@
 
       window.simplemde = new SimpleMDE({
          element: document.getElementById("editor"),
-         renderingConfig: {
-            codeSyntaxHighlighting: true,
-          },
          spellChecker: false,
          status: false,
        });
