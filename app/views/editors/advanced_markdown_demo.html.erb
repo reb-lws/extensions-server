@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= stylesheet_link_tag 'simplemde.min' %>
+  <%= javascript_include_tag 'simplemde.min' %>
+  <style>
+  body, html {
+    font-family: sans-serif;
+    font-size: 16px;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  #editor {
+    display: none;
+    overflow: auto;
+    box-sizing: border-box;
+  }
+  </style>
+
+  <script>
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+      window.simplemde = new SimpleMDE({
+         element: document.getElementById("editor"),
+         spellChecker: false,
+         status: false,
+       });
+
+      window.simplemde.value(window.noteText);
+    });
+
+  </script>
+</head>
+<body>
+<textarea id="editor">
+# Standard Notes
+### A standard notes app with an unstandard focus on longevity, portability, and privacy.
+
+*Notes so standard, they'll last forever.*
+
+> What I write is important to me. I want to be able to read it fifty years from now. A hundred years from now. So where do I go? Apple Notes? Google? Other private, short-lived, growth-oriented companies? No. What we need is something that _focuses_ on durability and **not** growth.
+
+<br>
+
+Standard Notes is a basic notes app that delivers only the essentials in note taking. Because of its simplicity and resistance to growth, users can count on:
+
+- **A standard data format that allows portability and an extended lifetime**. The more complex and custom an app becomes, the more likely your data becomes locked in to that platform, and the more buggy and laggy the application becomes. Because Standard Notes focuses on the "standard" format of a note, this data format, along with respective user-facing applications, are easy to maintain, and can exist for decades without issue. This means a less nomadic lifestyle for note takers.
+</textarea>
+</body>
+</html>

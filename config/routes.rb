@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   mount DropboxExt::Engine, at: "/dropbox"
 
   get "editors/simple_markdown" => "editors#simple_markdown"
+  get "editors/advanced_markdown_demo" => "editors#advanced_markdown_demo"
 
   resources "users"
 end
