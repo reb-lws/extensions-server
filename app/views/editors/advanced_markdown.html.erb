@@ -12,7 +12,7 @@
 
   <script>
 
-    window.addEventListener("message", function(){
+    window.addEventListener("message", function(event){
       window.noteText = event.data.text;
       window.noteId = event.data.id;
       if(window.simplemde) {
