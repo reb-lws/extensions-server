@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <%= javascript_include_tag 'marked' %>
+
+  <%= javascript_include_tag 'markdown-it.min' %>
+  <%= javascript_include_tag 'markdown-it-footnote.min' %>
+  <%= javascript_include_tag 'highlight.min' %>
+
+  <%= stylesheet_link_tag 'highlight' %>
   <style>
+
   body, html {
     font-family: sans-serif;
     height: 100%;
@@ -37,6 +43,71 @@
     overflow: scroll;
   }
 
+  a {
+    color: #086dd6
+  }
+
+  pre {
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border-radius: 3px;
+  }
+
+  table {
+   border-collapse: collapse;
+   border-spacing: 0;
+  }
+
+  td,
+  th {
+   padding: 0;
+  }
+
+  table {
+    display: block;
+    width: 100%;
+    overflow: auto;
+    word-break: normal;
+    word-break: keep-all;
+  }
+
+  th {
+    font-weight: bold;
+  }
+
+  th, td {
+    padding: 0.5rem 1rem;
+    border: 1px solid #e9ebec;
+  }
+
+
+  blockquote {
+    padding: 0 1rem;
+    margin-left: 0;
+    color: #819198;
+    border-left: 0.3rem solid #dce6f0;
+  }
+
+  blockquote > :first-child {
+    margin-top: 0;
+  }
+
+  blockquote > :last-child {
+    margin-bottom: 0;
+  }
+
+
+  p code {
+    padding: 2px 4px;
+    font-size: 90%;
+    color: #c7254e;
+    background-color: #f9f2f4;
+    border-radius: 4px;
+  }
+
   </style>
 
   <script>
@@ -45,26 +116,28 @@
       window.noteText = event.data.text || "";
       window.noteId = event.data.id;
       document.getElementById("editor").value = window.noteText;
-      document.getElementById("preview").innerHTML = marked(window.noteText);
+      document.getElementById("preview").innerHTML = md.render(window.noteText);
     }, false);
 
     document.addEventListener("DOMContentLoaded", function(event) {
       window.parent.postMessage({status: "ready"}, '*');
 
-      marked.setOptions({
-        gfm: true,
-        tables: true,
-        breaks: false,
-        pedantic: false,
-        sanitize: false,
-        smartLists: true,
-        smartypants: false
-      });
+      window.md = window.markdownit({
+        highlight: function (str, lang) {
+           if (lang && hljs.getLanguage(lang)) {
+             try {
+               return hljs.highlight(lang, str).value;
+             } catch (__) {}
+           }
+
+           return '';
+         }
+      }).use(window.markdownitFootnote);
 
       document.getElementById("editor").addEventListener("input", function(event){
         var text = event.target.value;
 
-        document.getElementById("preview").innerHTML = marked(text);
+        document.getElementById("preview").innerHTML = md.render(text);
 
         if(window.parent != window) {
           window.parent.postMessage({text: text, id: window.noteId}, '*');
@@ -76,7 +149,9 @@
 </head>
 <body>
   <div id="wrapper">
-    <textarea id="editor"></textarea>
+    <textarea id="editor">
+
+    </textarea>
     <div id="preview"></preview>
   </div>
 </body>
