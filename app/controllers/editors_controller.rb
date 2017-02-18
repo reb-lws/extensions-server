@@ -7,7 +7,7 @@ class EditorsController < ApplicationController
   end
 
   def simple_markdown
-    # render :layout => false
+
   end
 
   def advanced_markdown_demo
