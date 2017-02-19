@@ -4,6 +4,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var preview = document.getElementById("preview");
 
   window.addEventListener("message", function(event){
+    if(event.source == window) {
+      return;
+    }
+    console.log(event);
     window.noteText = event.data.text || "";
     window.noteId = event.data.id;
     editor.value = window.noteText;
@@ -24,14 +28,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
      }
   }).use(window.markdownitFootnote);
 
+  updatePreviewText();
 
   document.getElementById("editor").addEventListener("input", function(event){
-    var text = event.target.value;
-    preview.innerHTML = md.render(text);
+    var text = updatePreviewText();
     if(window.parent != window) {
       window.parent.postMessage({text: text, id: window.noteId}, '*');
     }
   })
+
+  function updatePreviewText() {
+    var text = editor.value;
+    preview.innerHTML = md.render(text);
+    return text;
+  }
 
   var pressed = false;
   var startWidth = editor.offsetWidth;

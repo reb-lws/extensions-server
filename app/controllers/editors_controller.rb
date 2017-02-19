@@ -8,6 +8,10 @@ class EditorsController < ApplicationController
 
   end
 
+  def simple_markdown_demo
+
+  end
+
   def advanced_markdown_demo
     render :layout => false
   end
