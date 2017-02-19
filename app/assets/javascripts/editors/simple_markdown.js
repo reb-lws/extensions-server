@@ -4,17 +4,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var preview = document.getElementById("preview");
 
   window.addEventListener("message", function(event){
-    if(!event.data.text) {
-      return;
-    }
-
     window.noteText = event.data.text || "";
     window.noteId = event.data.id;
     editor.value = window.noteText;
     preview.innerHTML = md.render(window.noteText);
   }, false);
 
-  window.parent.postMessage({status: "ready"}, '*');
+  if(window.parent != window) {
+    window.parent.postMessage({status: "ready"}, '*');
+  }
 
   window.md = window.markdownit({
     highlight: function (str, lang) {
@@ -38,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   })
 
   function updatePreviewText() {
-    var text = editor.value;
+    var text = editor.value || "";
     preview.innerHTML = md.render(text);
     return text;
   }
