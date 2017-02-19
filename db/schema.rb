@@ -33,8 +33,8 @@ ActiveRecord::Schema.define(version: 20170213193323) do
     t.text     "content",      limit: 16777215
     t.string   "enc_item_key"
     t.string   "auth_hash"
-    t.integer  "num"
     t.integer  "item_id"
+    t.integer  "num"
     t.datetime "created_at",                    precision: 6
     t.datetime "updated_at",                    precision: 6
     t.index ["created_at"], name: "index_revisions_revisions_on_created_at", using: :btree
