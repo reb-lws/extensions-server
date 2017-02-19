@@ -4,10 +4,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var preview = document.getElementById("preview");
 
   window.addEventListener("message", function(event){
-    if(event.source == window) {
+    if(!event.data.text) {
       return;
     }
-    console.log(event);
+
     window.noteText = event.data.text || "";
     window.noteId = event.data.id;
     editor.value = window.noteText;
