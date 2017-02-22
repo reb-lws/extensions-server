@@ -14,6 +14,7 @@ gem 'bcrypt'
 # SN Extensions
 gem 'sn-revisions', require: "revisions"
 gem 'sf-dropbox-ext', require: "dropbox_ext"
+gem 'sn-collab-editor', require: "collab"
 
 gem 'rack-cors', :require => 'rack/cors'
 
