@@ -167,7 +167,7 @@ GEM
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
       redis (~> 3.2, >= 3.2.1)
-    sn-collab-editor (0.1.0)
+    sn-collab-editor (0.1.1)
       rails (~> 5.0.1)
     sn-revisions (0.1.5)
       rails (~> 5.0.1)
