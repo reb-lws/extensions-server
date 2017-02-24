@@ -13,12 +13,17 @@
 ActiveRecord::Schema.define(version: 20170222175432) do
 
   create_table "collab_documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.text     "content",    limit: 65535
-    t.string   "iv"
-    t.string   "auth"
     t.string   "uuid"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.string   "edit_token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "collab_patches", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.text    "content",     limit: 16777215
+    t.string  "iv"
+    t.string  "auth"
+    t.integer "document_id"
   end
 
   create_table "fa_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
