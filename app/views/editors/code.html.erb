@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= stylesheet_link_tag 'codemirror' %>
+  <%= javascript_include_tag 'codemirror' %>
+  <%= javascript_include_tag 'loadmode' %>
+  <%= javascript_include_tag 'cm-meta' %>
+  <style>
+
+  body, html {
+    font-family: sans-serif;
+    font-size: 16px;
+    height: 100%;
+  }
+
+  #wrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
+  }
+
+  /*#code {
+    flex: 1 1 auto;
+    display: block;
+    height: 100%;
+    width: 100%;
+  }*/
+
+  .CodeMirror {
+    flex: 1 1 auto;
+    /*flex-grow: 1;*/
+    width: 100%;
+    height: 100%;
+    resize: none;
+    font-size: 16px;
+    border-radius: 4px;
+    padding: 15px;
+    font-family: monospace;
+    padding: 0;
+    /*position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 30;
+    left: 0;*/
+  }
+
+  #select-wrapper {
+    float: left;
+    margin: 8px;
+  }
+
+  #info {
+    /*float: right;*/
+    font-size: 12px;
+    /*margin: 8px;*/
+    opacity: 0.5;
+  }
+
+  #language-label {
+    font-size: 12px;
+  }
+
+  #select {
+    /*display: block;*/
+    margin: 5px;
+    /*min-width: 200px;*/
+  }
+
+  </style>
+
+  <script>
+
+    var editor, modeInput, select;
+    var currentMode, defaultMode = "markdown";
+
+    var modes = [
+      "apl", "asciiarmor", "asn.1", "asterisk", "brainfuck", "clike", "clojure", "cmkake",
+      "cobol", "coffeescript", "commonlisp", "crystal", "css", "cypher", "d", "dart", "diff",
+      "django", "dockerfile", "dtd", "dylan", "ebnf", "ecl", "eiffel", "elm", "erlang", "factor",
+      "fcl", "forth", "fortran", "gas", "gfm", "gherkin", "go", "groovy", "haml", "handlebars",
+      "haskell", "haskell-literate", "haxe", "htmlembedded", "htmlmixed", "http", "idl", "javascript",
+      "jinja2", "jsx", "julia", "livescript", "lua", "markdown", "mathematica", "mbox", "mirc", "mllike",
+      "modelica", "mscgen", "mimps", "nginx", "nsis", "ntriples", "octave", "oz", "pascal", "pegjs", "perl",
+      "php", "pig", "powershell", "properties", "protobug", "pug", "puppet", "python", "q", "r", "rpm",
+      "rst", "ruby", "rust", "sas", "sass", "scheme", "shell", "sieve", "slim", "smalltalk", "smarty",
+      "solr", "soy", "sparql", "spreadsheet", "sql", "stex", "stylus", "swift", "tcl", "textile",
+      "tiddlywiki", "tiki", "toml", "tornado", "troff", "ttcn", "ttcn-cfg", "turtle", "twig", "vb",
+      "vbscript", "velocity", "verilog", "vhdl", "vue", "webidl", "xml", "xquery", "yacas", "yaml",
+      "yaml-frontmatter", "z80"
+    ];
+
+    function changeMode(inputMode) {
+      var val = inputMode, m, mode, spec;
+      if (m = /.+\.([^.]+)$/.exec(val)) {
+        var info = CodeMirror.findModeByExtension(m[1]);
+        if (info) {
+          mode = info.mode;
+          spec = info.mime;
+        }
+      } else if (/\//.test(val)) {
+        var info = CodeMirror.findModeByMIME(val);
+        if (info) {
+          mode = info.mode;
+          spec = val;
+        }
+      } else {
+        mode = spec = val;
+      }
+      if (mode) {
+        editor.setOption("mode", spec);
+        CodeMirror.autoLoadMode(editor, mode);
+        currentMode = mode;
+        document.getElementById("select").selectedIndex = modes.indexOf(mode);
+      } else {
+        alert("Could not find a mode corresponding to " + val);
+      }
+    }
+
+    window.addEventListener("message", function(event){
+      console.log("message", event);
+      var text = window.noteText = event.data.text;
+      var language = text.split("\n")[0];
+      if(modes.indexOf(language) != -1) {
+        changeMode(language);
+      }
+      window.noteId = event.data.id;
+      if(editor) {
+        editor.getDoc().setValue(window.noteText);
+      }
+    }, false);
+
+    function onLanguageSelect(event) {
+      var language = modes[select.selectedIndex];
+      changeMode(language);
+    }
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+
+      if(window.parent != window) {
+        window.parent.postMessage({status: "ready"}, '*');
+      }
+
+      CodeMirror.modeURL = "../assets/modes/%N/%N.js";
+      editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        lineNumbers: true
+      });
+      editor.setSize("100%", "100%");
+      changeMode(defaultMode);
+
+      select = document.getElementById("select");
+
+      var index = 0;
+      for(element in modes) {
+         var opt = document.createElement("option");
+         opt.value = index;
+         opt.innerHTML = modes[index];
+
+         select.appendChild(opt);
+         index++;
+      }
+
+      // window.simplemde.value(window.noteText);
+
+      editor.on("change", function(){
+        if(window.parent != window) {
+          window.parent.postMessage({text: editor.getValue(), id: window.noteId}, '*');
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+
+<div id="wrapper">
+  <textarea id="code" name="code">
+  swift
+  This is the editor.
+  // It starts out in plain text mode,
+  #  use the control below to load and apply a mode
+  "you'll see the highlighting of" this text /*change*/.
+  </textarea>
+<div>
+
+<div id="select-wrapper">
+  <span id="language-label">Language:</span>
+  <select id="select" onchange="onLanguageSelect(event)"></select>
+  <div id="info">To save a language as the default, write it as the first line in your note.</div>
+</div>
+
+<div id="info-wrapper">
+</div>
+
+</body>
+</html>

@@ -8,6 +8,4 @@ Rails.application.config.assets.version = '1.0'
 
 Rails.application.config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
 
-# Precompile additional assets.
-# application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-Rails.application.config.assets.precompile += %w( simplemde.min.js simplemde.min.css markdown-it-footnote.min.js markdown-it.min.js highlight.min.js highlight.css)
+Rails.application.config.assets.precompile = ['*.js', '*.css']

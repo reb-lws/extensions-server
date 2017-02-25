@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get "editors/simple_markdown" => "editors#simple_markdown"
   get "editors/simple_markdown_demo" => "editors#simple_markdown_demo"
   get "editors/advanced_markdown_demo" => "editors#advanced_markdown_demo"
+  get "editors/code" => "editors#code"
 
   resources "users"
 end

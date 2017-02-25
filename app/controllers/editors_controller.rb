@@ -16,4 +16,8 @@ class EditorsController < ApplicationController
     render :layout => false
   end
 
+  def code
+
+  end
+
 end

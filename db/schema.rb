@@ -26,14 +26,6 @@ ActiveRecord::Schema.define(version: 20170222175432) do
     t.integer "document_id"
   end
 
-  create_table "fa_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "uuid"
-    t.string   "enc_dropbox_token"
-    t.text     "payload",           limit: 65535
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-  end
-
   create_table "revisions_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "item_uuid",    limit: 36, null: false
     t.string   "content_type"
@@ -48,7 +40,6 @@ ActiveRecord::Schema.define(version: 20170222175432) do
     t.string   "enc_item_key"
     t.string   "auth_hash"
     t.integer  "item_id"
-    t.integer  "num"
     t.datetime "created_at",                    precision: 6
     t.datetime "updated_at",                    precision: 6
     t.index ["created_at"], name: "index_revisions_revisions_on_created_at", using: :btree

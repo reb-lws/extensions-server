@@ -1,5 +1,10 @@
 document.addEventListener("DOMContentLoaded", function(event) {
 
+  var simpleMarkdown = document.getElementById("simple-markdown");
+  if(!simpleMarkdown) {
+    return;
+  }
+
   var editor = document.getElementById("editor");
   var preview = document.getElementById("preview");
 
@@ -45,7 +50,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var startWidth = editor.offsetWidth;
   var startX;
   var lastDownX;
-  var wrapper = document.getElementById("wrapper");
 
   var columnResizer = document.getElementById("column-resizer");
   var resizerWidth = columnResizer.offsetWidth;
@@ -67,8 +71,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var x = event.clientX;
     if(x < resizerWidth/2 + safetyOffset) {
       x = resizerWidth/2 + safetyOffset;
-    } else if(x > wrapper.offsetWidth - resizerWidth - safetyOffset) {
-      x = wrapper.offsetWidth - resizerWidth - safetyOffset;
+    } else if(x > simpleMarkdown.offsetWidth - resizerWidth - safetyOffset) {
+      x = simpleMarkdown.offsetWidth - resizerWidth - safetyOffset;
     }
 
     var colLeft = x - resizerWidth/2;
