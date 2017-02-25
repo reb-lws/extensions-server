@@ -20,4 +20,8 @@ class EditorsController < ApplicationController
 
   end
 
+  def code_demo
+    render "code"
+  end
+
 end

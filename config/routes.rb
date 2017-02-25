@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     match "/revisions" => "users#expired_pro", :via => [:get]
 
     get "/editors/advanced_markdown" => "editors#advanced_markdown", constraints: ProConstraint.new
+    get "/editors/code" => "editors#code", constraints: ProConstraint.new
     match "/editors/*any" => "users#expired_pro", :via => [:get]
   end
 
@@ -19,7 +20,7 @@ Rails.application.routes.draw do
   get "editors/simple_markdown" => "editors#simple_markdown"
   get "editors/simple_markdown_demo" => "editors#simple_markdown_demo"
   get "editors/advanced_markdown_demo" => "editors#advanced_markdown_demo"
-  get "editors/code" => "editors#code"
+  get "editors/code_demo" => "editors#code_demo"
 
   resources "users"
 end

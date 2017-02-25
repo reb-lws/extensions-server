@@ -20,16 +20,8 @@
     height: 100%;
   }
 
-  /*#code {
-    flex: 1 1 auto;
-    display: block;
-    height: 100%;
-    width: 100%;
-  }*/
-
   .CodeMirror {
     flex: 1 1 auto;
-    /*flex-grow: 1;*/
     width: 100%;
     height: 100%;
     resize: none;
@@ -38,23 +30,14 @@
     padding: 15px;
     font-family: monospace;
     padding: 0;
-    /*position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 30;
-    left: 0;*/
   }
 
   #select-wrapper {
-    float: left;
-    margin: 8px;
-  }
-
-  #info {
-    /*float: right;*/
-    font-size: 12px;
-    /*margin: 8px;*/
-    opacity: 0.5;
+    width: 100%;
+    margin: 0;
+    padding-left: 16px;
+    background-color: rgb(247, 247, 247);
+    border-top: 1px solid rgb(221, 221, 221);
   }
 
   #language-label {
@@ -62,17 +45,17 @@
   }
 
   #select {
-    /*display: block;*/
     margin: 5px;
-    /*min-width: 200px;*/
   }
 
   </style>
 
   <script>
 
+    var isDemo = "<%= params['action'] %>" == "code_demo";
+
     var editor, modeInput, select;
-    var currentMode, defaultMode = "markdown";
+    var currentMode, defaultMode = "javascript";
 
     var modes = [
       "apl", "asciiarmor", "asn.1", "asterisk", "brainfuck", "clike", "clojure", "cmkake",
@@ -110,6 +93,7 @@
       if (mode) {
         editor.setOption("mode", spec);
         CodeMirror.autoLoadMode(editor, mode);
+        localStorage.setItem(window.noteId, mode);
         currentMode = mode;
         document.getElementById("select").selectedIndex = modes.indexOf(mode);
       } else {
@@ -118,13 +102,16 @@
     }
 
     window.addEventListener("message", function(event){
-      console.log("message", event);
-      var text = window.noteText = event.data.text;
-      var language = text.split("\n")[0];
-      if(modes.indexOf(language) != -1) {
-        changeMode(language);
+      if(isDemo) {
+        return;
       }
+
+      window.noteText = event.data.text;
       window.noteId = event.data.id;
+      var mode = localStorage.getItem(window.noteId)
+      if(mode) {
+        changeMode(mode);
+      }
       if(editor) {
         editor.getDoc().setValue(window.noteText);
       }
@@ -146,7 +133,9 @@
         lineNumbers: true
       });
       editor.setSize("100%", "100%");
-      changeMode(defaultMode);
+      setTimeout(function () {
+        changeMode(defaultMode);
+      }, 1);
 
       select = document.getElementById("select");
 
@@ -160,10 +149,11 @@
          index++;
       }
 
-      // window.simplemde.value(window.noteText);
-
       editor.on("change", function(){
         if(window.parent != window) {
+          if(isDemo) {
+            return;
+          }
           window.parent.postMessage({text: editor.getValue(), id: window.noteId}, '*');
         }
       });
@@ -173,22 +163,58 @@
 <body>
 
 <div id="wrapper">
-  <textarea id="code" name="code">
-  swift
-  This is the editor.
-  // It starts out in plain text mode,
-  #  use the control below to load and apply a mode
-  "you'll see the highlighting of" this text /*change*/.
-  </textarea>
+<textarea id="code" name="code">
+<% if params['action'] == "code_demo" %>
+//
+//  TipCalculatorModel.swift
+//  TipCalculator
+//
+//  Created by Programmer on 02/25/17.
+//
+
+import Foundation
+
+class TipCalculatorModel {
+
+  var total: Double
+  var taxPct: Double
+  var subtotal: Double {
+    get {
+      return total / (taxPct + 1)
+    }
+  }
+
+  init(total: Double, taxPct: Double) {
+    self.total = total
+    self.taxPct = taxPct
+  }
+
+  func calcTipWithTipPct(tipPct: Double) -> Double {
+    return subtotal * tipPct
+  }
+
+  func returnPossibleTips() -> [Int: Double] {
+
+    let possibleTipsInferred = [0.15, 0.18, 0.20]
+    let possibleTipsExplicit:[Double] = [0.15, 0.18, 0.20]
+
+    var retval = [Int: Double]()
+    for possibleTip in possibleTipsInferred {
+      let intPct = Int(possibleTip*100)
+      retval[intPct] = calcTipWithTipPct(possibleTip)
+    }
+    return retval
+  }
+
+}
+
+<% end %>
+</textarea>
 <div>
 
 <div id="select-wrapper">
   <span id="language-label">Language:</span>
   <select id="select" onchange="onLanguageSelect(event)"></select>
-  <div id="info">To save a language as the default, write it as the first line in your note.</div>
-</div>
-
-<div id="info-wrapper">
 </div>
 
 </body>
