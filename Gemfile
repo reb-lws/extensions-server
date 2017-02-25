@@ -10,6 +10,7 @@ gem 'mysql2'
 gem 'sass-rails', '~> 5.0'
 gem 'haml'
 gem 'bcrypt'
+gem "non-stupid-digest-assets"
 
 # SN Extensions
 gem 'sn-revisions', require: "revisions"

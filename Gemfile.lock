@@ -116,6 +116,8 @@ GEM
     nio4r (1.2.1)
     nokogiri (1.7.0.1)
       mini_portile2 (~> 2.1.0)
+    non-stupid-digest-assets (1.0.9)
+      sprockets (>= 2.0)
     public_suffix (2.0.5)
     puma (3.7.0)
     rack (2.0.1)
@@ -220,6 +222,7 @@ DEPENDENCIES
   haml
   listen (~> 3.0.5)
   mysql2
+  non-stupid-digest-assets
   puma (~> 3.0)
   rack-cors
   rails (~> 5.0.1)
