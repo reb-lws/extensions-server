@@ -128,7 +128,7 @@
         window.parent.postMessage({status: "ready"}, '*');
       }
 
-      CodeMirror.modeURL = "../assets/modes/%N/%N.js";
+      CodeMirror.modeURL = "/assets/modes/%N/%N.js";
       editor = CodeMirror.fromTextArea(document.getElementById("code"), {
         lineNumbers: true
       });
