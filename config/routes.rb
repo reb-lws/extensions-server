@@ -22,5 +22,11 @@ Rails.application.routes.draw do
   get "editors/advanced_markdown_demo" => "editors#advanced_markdown_demo"
   get "editors/code_demo" => "editors#code_demo"
 
+  scope path: "staging-demos", constraints: StagingConstraint.new do
+    get "/editors/simple_markdown" => "editors#simple_markdown"
+    get "/editors/advanced_markdown" => "editors#advanced_markdown"
+    get "/editors/code" => "editors#code"
+  end
+
   resources "users"
 end
