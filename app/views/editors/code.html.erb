@@ -119,9 +119,14 @@
       }
     }, false);
 
+    function postMessageToParent() {
+      window.parent.postMessage({text: editor.getValue(), data: window.data, id: window.noteId}, '*');
+    }
+
     function onLanguageSelect(event) {
       var language = modes[select.selectedIndex];
       changeMode(language);
+      postMessageToParent();
     }
 
     document.addEventListener("DOMContentLoaded", function(event) {
@@ -156,7 +161,8 @@
           if(isDemo) {
             return;
           }
-          window.parent.postMessage({text: editor.getValue(), data: window.data, id: window.noteId}, '*');
+
+          postMessageToParent();
         }
       });
     });
