@@ -8,6 +8,13 @@
     font-family: sans-serif;
     font-size: 16px;
   }
+
+  .CodeMirror {
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+  }
+
   </style>
 
   <script>
@@ -29,6 +36,8 @@
          spellChecker: false,
          status: false,
        });
+
+      window.simplemde.toggleFullScreen();
 
       window.simplemde.value(window.noteText);
       simplemde.codemirror.on("change", function(){

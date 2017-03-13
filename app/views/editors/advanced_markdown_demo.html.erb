@@ -11,10 +11,17 @@
     margin: 0;
     padding: 0;
   }
+
   #editor {
     display: none;
     overflow: auto;
     box-sizing: border-box;
+  }
+
+  .CodeMirror {
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
   }
   </style>
 
@@ -22,10 +29,12 @@
 
     document.addEventListener("DOMContentLoaded", function(event) {
       window.simplemde = new SimpleMDE({
-         element: document.getElementById("editor"),
-         spellChecker: false,
-         status: false,
-       });
+       element: document.getElementById("editor"),
+       spellChecker: false,
+       status: false,
+      });
+
+      window.simplemde.toggleFullScreen();
 
       window.simplemde.value(window.noteText);
     });
