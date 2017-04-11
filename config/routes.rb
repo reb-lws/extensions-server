@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
   # free extensions
   mount DropboxExt::Engine, at: "/dropbox"
-
+  mount Gdrive::Engine, at: 'gdrive'
   mount Collab::Engine, at: "/collab"
   mount ActionCable.server => "/collab/cable"
 
