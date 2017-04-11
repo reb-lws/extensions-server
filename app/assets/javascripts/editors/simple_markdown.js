@@ -47,8 +47,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
      }
   }).use(window.markdownitFootnote).use(window.markdownitTaskLists);
 
-  console.log(window.markdownitTaskLists);
-
   updatePreviewText();
 
   document.getElementById("editor").addEventListener("input", function(event){
