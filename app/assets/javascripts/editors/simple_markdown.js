@@ -45,7 +45,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
        return '';
      }
-  }).use(window.markdownitFootnote);
+  }).use(window.markdownitFootnote).use(window.markdownitTaskLists);
+
+  console.log(window.markdownitTaskLists);
 
   updatePreviewText();
 
