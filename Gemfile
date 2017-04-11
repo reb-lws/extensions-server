@@ -16,6 +16,7 @@ gem "non-stupid-digest-assets"
 gem 'sn-revisions', require: "revisions"
 gem 'sf-dropbox-ext', require: "dropbox_ext"
 gem 'sn-collab-editor', require: "collab"
+gem 'sf-gdrive', require: 'gdrive'
 
 gem 'rack-cors', :require => 'rack/cors'
 

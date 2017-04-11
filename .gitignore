@@ -24,3 +24,5 @@
 .env
 /config/cap.yml
 .DS_Store
+
+client_secrets.json
